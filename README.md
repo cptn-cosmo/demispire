@@ -17,9 +17,20 @@ new entry:
 | Strength +0                       | `talespire://dice/Hope:1d12/Fear:1d12/Strength:0d6+0`        |
 | Improved Hand Runes damage 2d10+3 | `talespire://dice/Improved%20Hand%20Runes:2d10+3`            |
 
-TaleSpire rolls its own dice, so you read the outcome from its Hope and Fear
-totals. The result Demiplane rolled (and its With Hope / With Fear / Critical
-Success outcome) is only shown in the on-page toast.
+TaleSpire rolls its own dice; the result Demiplane rolled is only shown in the
+on-page toast. TaleSpire's dice links can't carry a total or outcome, so the
+`symbiote/` folder holds a small TaleSpire Symbiote that announces both in chat:
+
+> Agility: 12, With Hope (Hope 7, Fear 4, Agility +1)
+
+It reacts to any roll with exactly one `Hope` and one `Fear` group, and only
+on the roller's client, so the message isn't posted once per player. GM-only
+rolls are announced to GMs only.
+
+To install it, copy `symbiote/` into TaleSpire's Symbiotes folder
+(`%AppData%\..\LocalLow\BouncyRock Entertainment\TaleSpire\Symbiotes\Demispire`;
+`linux/install.sh` does this for Proton). Then enable Symbiotes in TaleSpire's
+settings and start **Demispire Duality** from the Symbiotes panel.
 
 ## Install (development)
 
