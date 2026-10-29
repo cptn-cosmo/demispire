@@ -98,6 +98,7 @@ of sending it) and **Debug logging** (print each roll to the page console).
 node --test test/      # unit tests
 npx web-ext lint       # validate the extension
 npx web-ext build      # package it to web-ext-artifacts/ for AMO
+(cd symbiote && python3 -m zipfile -c ../web-ext-artifacts/demispire-symbiote-0.2.0.zip *)   # package the Symbiote
 ```
 
 ## License
