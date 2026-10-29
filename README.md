@@ -99,3 +99,7 @@ node --test test/      # unit tests
 npx web-ext lint       # validate the extension
 npx web-ext build      # package it to web-ext-artifacts/ for AMO
 ```
+
+## License
+
+[MIT](LICENSE)

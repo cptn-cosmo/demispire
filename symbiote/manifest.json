@@ -3,6 +3,11 @@
   "name": "Demispire Duality",
   "summary": "Rolls Daggerheart duality dice sent from Demiplane and announces the total and With Hope / With Fear / Critical Success outcome in chat.",
   "version": "0.2.0",
+  "license": "MIT",
+  "about": {
+    "website": "https://github.com/cptn-cosmo/demispire",
+    "authors": ["cptn-cosmo"]
+  },
   "entryPoint": "/index.html",
   "icons": {
     "64x64": "/icon-64.png",
