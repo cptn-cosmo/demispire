@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+#
+# Hands a talespire:// URL to TaleSpire running under Steam Proton.
+#
+# TaleSpire registers its own handler from inside Proton, but writes a Windows
+# path ("S:/steamapps/...") into the .desktop file and its relay script looks
+# for bin/wine64, which newer Proton builds no longer ship. This does the same
+# job: run TaleSpireUrlRelay.exe in the game's prefix with Proton's wine.
+#
+# The last run's output goes to ~/.cache/talespire-url-relay.log.
+
+set -u
+
+APPID=720620
+url=${1:?usage: talespire-url-relay talespire://...}
+log="${XDG_CACHE_HOME:-$HOME/.cache}/talespire-url-relay.log"
+mkdir -p "$(dirname "$log")"
+exec 3>"$log"
+
+fail() {
+    echo "error: $*" >&3
+    command -v notify-send >/dev/null && notify-send "TaleSpire URL relay" "$*"
+    exit 1
+}
+
+find_steamapps() {
+    local vdf path
+    for vdf in "$HOME/.local/share/Steam/steamapps/libraryfolders.vdf" "$HOME/.steam/steam/steamapps/libraryfolders.vdf"; do
+        [[ -f $vdf ]] || continue
+        while read -r path; do
+            if [[ -f $path/steamapps/appmanifest_$APPID.acf ]]; then
+                echo "$path/steamapps"
+                return 0
+            fi
+        done < <(sed -n 's/^[[:space:]]*"path"[[:space:]]*"\(.*\)"/\1/p' "$vdf")
+    done
+    return 1
+}
+
+steamapps=$(find_steamapps) || fail "TaleSpire (app $APPID) not found in any Steam library"
+compatdata="$steamapps/compatdata/$APPID"
+relay="$steamapps/common/TaleSpire/TaleSpireUrlRelay.exe"
+[[ -f $relay ]] || fail "missing $relay"
+[[ -f $compatdata/config_info ]] || fail "missing $compatdata/config_info; start TaleSpire once first"
+
+# Line 3 of config_info is "<proton>/files/lib/"; it is refreshed whenever the game starts.
+proton_files=$(dirname "$(sed -n 3p "$compatdata/config_info")")
+wine="$proton_files/bin/wine64"
+[[ -x $wine ]] || wine="$proton_files/bin/wine"
+[[ -x $wine ]] || fail "no wine binary under $proton_files/bin"
+
+echo "url=$url wine=$wine" >&3
+
+# The relay must use the same sync mode as the running wineserver; wine says
+# so in an fsync_init/esync_init error, in which case try the next mode.
+for sync in WINEFSYNC=1 WINEESYNC=1 ""; do
+    err=$(env WINEPREFIX="$compatdata/pfx" $sync "$wine" "$relay" "$url" 2>&1 >/dev/null)
+    echo "[${sync:-no sync}] $err" >&3
+    [[ $err =~ (fsync|esync)_init ]] || exit 0
+done
+fail "could not match the running wineserver's sync mode; see $log"

@@ -30,6 +30,21 @@ Success outcome) is only shown in the on-page toast.
 4. The first time a link is sent, Firefox asks whether to open TaleSpire.
    Tick **Always allow** for app.demiplane.com.
 
+### Linux with TaleSpire under Proton
+
+TaleSpire registers its `talespire://` handler from inside Proton, so the
+`.desktop` file it writes points at a Windows path (`S:/steamapps/...`) and
+nothing happens when Firefox opens a link. Its relay script also looks for
+`bin/wine64`, which newer Proton builds don't ship. Run:
+
+```sh
+linux/install.sh
+```
+
+This installs `~/.local/bin/talespire-url-relay` and makes it the
+`talespire://` handler. TaleSpire needs to be running for rolls to arrive.
+The last relay run is logged to `~/.cache/talespire-url-relay.log`.
+
 **Debug logging** in the popup prints each raw history entry and its parsed
 form to the page console.
 
