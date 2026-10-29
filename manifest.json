@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Demispire",
+  "version": "0.1.0",
+  "description": "Forwards Daggerheart rolls from Demiplane character sheets to TaleSpire via talespire:// dice links.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "demispire@extension",
+      "strict_min_version": "115.0"
+    }
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://app.demiplane.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://app.demiplane.com/*"],
+      "js": ["src/parse.js", "src/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Demispire",
+    "default_popup": "popup/popup.html"
+  }
+}
