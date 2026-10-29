@@ -100,10 +100,14 @@ const DemispireParse = (() => {
     const groups = [];
     if (roll.kind === "duality") {
       groups.push(["Hope", "1d12"], ["Fear", "1d12"]);
-      // The bonus group carries the trait name ("Agility:1"); a +0 trait still
-      // gets a group so the name shows up in TaleSpire.
-      const bonus = formatTerms(roll.extraDice, roll.modifier) || (roll.source ? "0" : "");
-      if (bonus) groups.push([roll.source || "Modifier", bonus]);
+      // The bonus group carries the trait name ("Agility:0d6+1"). TaleSpire
+      // only accepts constants as a suffix on a die term, so a dice-free bonus
+      // rides on zero dice; a +0 trait still gets a group so the name shows up.
+      if (roll.extraDice.length) {
+        groups.push([roll.source || "Modifier", formatTerms(roll.extraDice, roll.modifier)]);
+      } else if (roll.modifier || roll.source) {
+        groups.push([roll.source || "Modifier", `0d6${roll.modifier < 0 ? "-" : "+"}${Math.abs(roll.modifier)}`]);
+      }
     } else {
       groups.push([roll.source || roll.name, formatTerms(roll.dice, roll.modifier)]);
     }

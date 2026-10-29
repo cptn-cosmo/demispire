@@ -11,10 +11,10 @@ new entry:
 
 | Demiplane roll                    | TaleSpire link                                               |
 | --------------------------------- | ------------------------------------------------------------ |
-| Agility +1                        | `talespire://dice/Hope:1d12/Fear:1d12/Agility:1`             |
+| Agility +1                        | `talespire://dice/Hope:1d12/Fear:1d12/Agility:0d6+1`         |
 | Agility +1 with advantage         | `talespire://dice/Hope:1d12/Fear:1d12/Agility:1d6+1`         |
 | Presence −1 with disadvantage     | `talespire://dice/Hope:1d12/Fear:1d12/Presence:-1d6-1`       |
-| Strength +0                       | `talespire://dice/Hope:1d12/Fear:1d12/Strength:0`            |
+| Strength +0                       | `talespire://dice/Hope:1d12/Fear:1d12/Strength:0d6+0`        |
 | Improved Hand Runes damage 2d10+3 | `talespire://dice/Improved%20Hand%20Runes:2d10+3`            |
 
 TaleSpire rolls its own dice, so you read the outcome from its Hope and Fear

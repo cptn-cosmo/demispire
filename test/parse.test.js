@@ -57,7 +57,7 @@ test("trait roll with hope", () => {
   assert.equal(roll.kind, "duality");
   assert.equal(roll.outcome, "With Hope");
   assert.equal(P.describe(roll), "Agility Trait Roll: Hope 12 / Fear 7 → 20, With Hope");
-  assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Hope:1d12/Fear:1d12/Agility:1");
+  assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Hope:1d12/Fear:1d12/Agility:0d6+1");
 });
 
 test("advantage die joins the trait group", () => {
@@ -73,12 +73,12 @@ test("disadvantage die is negated and equal dice crit", () => {
 
 test("+0 trait still sends its name", () => {
   const roll = P.parseHistoryEntry({ ...agilityWithHope, modifiersParsed: mods(0, "Trait Roll", "Strength", 0) });
-  assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Hope:1d12/Fear:1d12/Strength:0");
+  assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Hope:1d12/Fear:1d12/Strength:0d6+0");
 });
 
 test("duality roll without a source falls back to Modifier", () => {
   const roll = P.parseHistoryEntry({ ...agilityWithHope, modifiersParsed: [{ value: 2, purpose: "add" }] });
-  assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Hope:1d12/Fear:1d12/Modifier:2");
+  assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Hope:1d12/Fear:1d12/Modifier:0d6+2");
 });
 
 test("damage roll is named after its source", () => {
