@@ -1,12 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Demispire",
-  "version": "0.1.0",
-  "description": "Forwards Daggerheart rolls from Demiplane character sheets to TaleSpire via talespire:// dice links.",
+  "version": "0.2.0",
+  "description": "Rolls your Daggerheart dice from Demiplane character sheets in TaleSpire, with Hope and Fear dice and the outcome announced in chat.",
+  "homepage_url": "https://github.com/cptn-cosmo/demispire",
   "browser_specific_settings": {
     "gecko": {
-      "id": "demispire@extension",
-      "strict_min_version": "115.0"
+      "id": "demispire@cptn-cosmo",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "permissions": ["storage"],

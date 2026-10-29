@@ -8,7 +8,7 @@
 const SHEET_PATH = /^\/nexus\/[^/]+\/character-sheet\/([^/?#]+)/;
 const POLL_MS = 250;
 
-let settings = { enabled: true, dryRun: true, debug: false };
+let settings = { enabled: true, viaSymbiote: true, dryRun: false, debug: false };
 browser.storage.local.get(settings).then((s) => (settings = { ...settings, ...s }));
 browser.storage.onChanged.addListener((changes, area) => {
   if (area !== "local") return;
@@ -49,7 +49,8 @@ function forward(entry) {
   debug("history entry", entry, "→", roll);
   if (!roll) return;
 
-  const url = DemispireParse.buildTaleSpireUrl(roll);
+  const prefix = settings.viaSymbiote ? DemispireParse.SYMBIOTE_PREFIX : DemispireParse.DICE_PREFIX;
+  const url = DemispireParse.buildTaleSpireUrl(roll, prefix);
   const summary = `Demiplane ${DemispireParse.describe(roll)}`;
   if (settings.dryRun) {
     toast([summary, `Dry run, not sent: ${url}`]);

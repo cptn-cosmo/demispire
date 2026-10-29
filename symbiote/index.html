@@ -6,6 +6,7 @@
       body { margin: 0; padding: 12px; background: #1d1b26; color: #f2eefc; font: 14px/1.4 sans-serif; }
       h1 { margin: 0 0 4px; font-size: 16px; }
       p { margin: 0 0 12px; color: #a9a3bd; }
+      code { color: #f2eefc; overflow-wrap: anywhere; }
       ol { margin: 0; padding-left: 20px; }
       li { margin-bottom: 6px; }
     </style>
@@ -14,6 +15,7 @@
   <body>
     <h1>Demispire Duality</h1>
     <p>Rolls with Hope and Fear groups are announced in chat. Keep this Symbiote enabled while playing.</p>
+    <p>Roll link prefix: <code id="prefix">…</code></p>
     <ol id="log" reversed></ol>
     <script>
       "use strict";
@@ -28,8 +30,37 @@
         while (log.children.length > MAX_LOG) log.lastElementChild.remove();
       }
 
-      // Subscribed in manifest.json. Every client running this Symbiote sees
-      // every roll, so only the roller's client announces it.
+      function logError(err) {
+        logLine(`Error: ${err?.cause ?? err?.message ?? JSON.stringify(err)}`);
+        console.error("[Demispire]", err);
+      }
+
+      // Subscribed in manifest.json.
+      async function handleStateChange(event) {
+        if (event.kind !== "hasInitialized") return;
+        try {
+          document.getElementById("prefix").textContent = await TS.urls.createUrlPrefixForThisSymbiote();
+        } catch (err) {
+          logError(err);
+        }
+      }
+
+      // talespire://symbiote/<prefix>/Hope:1d12/Fear:1d12/... from the
+      // Demispire extension. Duality rolls are rolled with TaleSpire's own
+      // result hidden, so the announcement below is the only chat message
+      // players see; other rolls (damage) show TaleSpire's result as usual.
+      async function handleUrlMessage(event) {
+        if (event.kind !== "urlMessageReceived") return;
+        try {
+          const groups = DemispireDuality.parseRollPath(event.payload.str);
+          await TS.dice.putDiceInTray(groups, DemispireDuality.isDuality(groups));
+        } catch (err) {
+          logError(err);
+        }
+      }
+
+      // Every client running this Symbiote sees every roll, so only the
+      // roller's client announces it.
       async function handleRollResults(event) {
         if (event.kind !== "rollResults") return;
         const roll = event.payload;
@@ -38,13 +69,12 @@
           const groups = await Promise.all(
             roll.resultsGroups.map(async (g) => ({ name: g.name, total: await TS.dice.evaluateDiceResultsGroup(g) })),
           );
-          const message = DemispireDuality.summarize(groups);
-          if (!message) return;
-          logLine(message);
-          await TS.chat.send(message, roll.gmOnly ? "gms" : "board");
+          const summary = DemispireDuality.summarize(groups);
+          if (!summary) return;
+          logLine(DemispireDuality.plainText(summary));
+          await TS.chat.send(DemispireDuality.chatMessage(summary), roll.gmOnly ? "gms" : "board");
         } catch (err) {
-          logLine(`Error: ${err?.cause ?? err?.message ?? err}`);
-          console.error("[Demispire]", err);
+          logError(err);
         }
       }
     </script>

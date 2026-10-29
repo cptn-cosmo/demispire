@@ -1,6 +1,6 @@
 "use strict";
 
-const DEFAULTS = { enabled: true, dryRun: true, debug: false };
+const DEFAULTS = { enabled: true, viaSymbiote: true, dryRun: false, debug: false };
 
 browser.storage.local.get(DEFAULTS).then((settings) => {
   for (const [key, value] of Object.entries(settings)) {

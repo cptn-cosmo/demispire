@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      body { margin: 0; padding: 12px 14px; min-width: 220px; font: 13px/1.4 system-ui, sans-serif; }
+      body { margin: 0; padding: 12px 14px; min-width: 240px; font: 13px/1.4 system-ui, sans-serif; }
       h1 { margin: 0 0 8px; font-size: 14px; }
       label { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
       small { display: block; margin-left: 24px; color: #777; }
@@ -12,10 +12,12 @@
   <body>
     <h1>Demispire</h1>
     <label><input type="checkbox" id="enabled" /> Enabled</label>
+    <label><input type="checkbox" id="viaSymbiote" /> Roll through Symbiote</label>
+    <small>Needs the Demispire Duality Symbiote running in TaleSpire. Off sends plain dice links.</small>
     <label><input type="checkbox" id="dryRun" /> Dry run</label>
     <small>Show what would be sent without launching TaleSpire.</small>
     <label><input type="checkbox" id="debug" /> Debug logging</label>
-    <small>Logs candidate roll HTML to the page console.</small>
+    <small>Logs each roll to the page console.</small>
     <script src="popup.js"></script>
   </body>
 </html>

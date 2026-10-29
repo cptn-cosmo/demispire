@@ -1,15 +1,24 @@
 {
   "manifestVersion": 1,
   "name": "Demispire Duality",
-  "summary": "Announces the total and With Hope / With Fear / Critical Success outcome of Daggerheart duality rolls in chat.",
-  "version": "0.1.0",
+  "summary": "Rolls Daggerheart duality dice sent from Demiplane and announces the total and With Hope / With Fear / Critical Success outcome in chat.",
+  "version": "0.2.0",
   "entryPoint": "/index.html",
   "api": {
     "version": "0.1",
     "subscriptions": {
       "dice": {
         "onRollResults": "handleRollResults"
+      },
+      "urls": {
+        "onUrlMessage": "handleUrlMessage"
+      },
+      "symbiote": {
+        "onStateChangeEvent": "handleStateChange"
       }
+    },
+    "interop": {
+      "id": "dbe84acd-9d4e-4cbf-9ce2-bfde3ae00b1a"
     }
   },
   "environment": {

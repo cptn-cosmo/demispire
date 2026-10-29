@@ -88,6 +88,14 @@ test("damage roll is named after its source", () => {
   assert.equal(P.buildTaleSpireUrl(roll), "talespire://dice/Improved%20Hand%20Runes:2d10+3");
 });
 
+test("symbiote prefix routes the same groups through the Symbiote", () => {
+  const roll = P.parseHistoryEntry(agilityWithHope);
+  assert.equal(
+    P.buildTaleSpireUrl(roll, P.SYMBIOTE_PREFIX),
+    "talespire://symbiote/AQDNSujbTp2_TJziv9464Asa/Hope:1d12/Fear:1d12/Agility:0d6+1",
+  );
+});
+
 test("newEntry detects new rolls in a capped history", () => {
   const a = JSON.stringify([agilityWithHope, handRunesDamage, agilityAdvantage]);
   const b = JSON.stringify([presenceDisadvantageCrit, agilityWithHope, handRunesDamage]);

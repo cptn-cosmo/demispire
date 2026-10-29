@@ -94,9 +94,16 @@ const DemispireParse = (() => {
     return encodeURIComponent(name.replace(/[^A-Za-z0-9 ]/g, "").trim() || "Roll");
   }
 
-  // talespire://dice/Name:expr/Name:expr — "/" keeps each group's total separate,
+  // Plain dice links; rolls show TaleSpire's own result in chat.
+  const DICE_PREFIX = "talespire://dice/";
+  // The Demispire Symbiote's URL prefix, derived by TaleSpire from the interop
+  // id in symbiote/manifest.json. The Symbiote rolls the same groups itself,
+  // hiding TaleSpire's result for duality rolls in favour of its announcement.
+  const SYMBIOTE_PREFIX = "talespire://symbiote/AQDNSujbTp2_TJziv9464Asa/";
+
+  // <prefix>Name:expr/Name:expr — "/" keeps each group's total separate,
   // so Hope and Fear can be compared directly in TaleSpire's result.
-  function buildTaleSpireUrl(roll) {
+  function buildTaleSpireUrl(roll, prefix = DICE_PREFIX) {
     const groups = [];
     if (roll.kind === "duality") {
       groups.push(["Hope", "1d12"], ["Fear", "1d12"]);
@@ -111,7 +118,7 @@ const DemispireParse = (() => {
     } else {
       groups.push([roll.source || roll.name, formatTerms(roll.dice, roll.modifier)]);
     }
-    return "talespire://dice/" + groups.map(([n, e]) => `${groupName(n)}:${e}`).join("/");
+    return prefix + groups.map(([n, e]) => `${groupName(n)}:${e}`).join("/");
   }
 
   function describe(roll) {
@@ -139,7 +146,16 @@ const DemispireParse = (() => {
     return next[0];
   }
 
-  return { parseHistoryEntry, dualityOutcome, formatTerms, buildTaleSpireUrl, describe, newEntry };
+  return {
+    DICE_PREFIX,
+    SYMBIOTE_PREFIX,
+    parseHistoryEntry,
+    dualityOutcome,
+    formatTerms,
+    buildTaleSpireUrl,
+    describe,
+    newEntry,
+  };
 })();
 
 if (typeof module !== "undefined") module.exports = DemispireParse;
