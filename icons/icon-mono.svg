@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Monochrome d12 for TaleSpire's Symbiote notification icon. -->
+  <defs>
+    <mask id="cut">
+      <polygon points="64.0,6.0 98.1,17.1 119.2,46.1 119.2,81.9 98.1,110.9 64.0,122.0 29.9,110.9 8.8,81.9 8.8,46.1 29.9,17.1" fill="#fff"/>
+      <polygon points="64.0,36.0 90.6,55.3 80.5,86.7 47.5,86.7 37.4,55.3" fill="none" stroke="#000" stroke-width="12" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <polygon points="64.0,6.0 98.1,17.1 119.2,46.1 119.2,81.9 98.1,110.9 64.0,122.0 29.9,110.9 8.8,81.9 8.8,46.1 29.9,17.1" fill="#fff" mask="url(#cut)"/>
+</svg>

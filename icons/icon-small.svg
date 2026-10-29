@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Demispire: a d12 split into Hope (gold) and Fear (purple). Simplified for 16px: no facet lines. -->
+  <defs>
+    <clipPath id="hope"><rect width="64" height="128"/></clipPath>
+    <clipPath id="fear"><rect x="64" width="64" height="128"/></clipPath>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="#1d1b26"/>
+  <polygon points="64.0,14.0 93.4,23.5 111.6,48.5 111.6,79.5 93.4,104.5 64.0,114.0 34.6,104.5 16.4,79.5 16.4,48.5 34.6,23.5" fill="#F2C14E" clip-path="url(#hope)"/>
+  <polygon points="64.0,14.0 93.4,23.5 111.6,48.5 111.6,79.5 93.4,104.5 64.0,114.0 34.6,104.5 16.4,79.5 16.4,48.5 34.6,23.5" fill="#B07CF0" clip-path="url(#fear)"/>
+  <polygon points="64.0,39.0 87.8,56.3 78.7,84.2 49.3,84.2 40.2,56.3" fill="#ffffff" fill-opacity="0.22"/>
+  <g stroke="#1d1b26" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polygon points="64.0,39.0 87.8,56.3 78.7,84.2 49.3,84.2 40.2,56.3"/>
+  </g>
+</svg>
